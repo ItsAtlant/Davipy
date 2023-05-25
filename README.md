@@ -4,7 +4,7 @@
 
 You can install Davipy using pip, so type in shell:
 
-  pip install davipy
+  `pip install davipy`
   
 ## Features:bulb:
 
