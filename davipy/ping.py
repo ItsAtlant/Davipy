@@ -1,12 +1,11 @@
-
 import requests
 from requests.exceptions import ConnectionError
-def ping(site):
+
+
+def ping(link: str) -> bool:
+    """docstring"""  # TODO scrivila
     try:
-        requests.get(site)
+        requests.get(link)
     except ConnectionError:
-        return "site is not reacheable"
-    return "pong"
-
-
-
+        return False
+    return True

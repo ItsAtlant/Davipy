@@ -1,41 +1,47 @@
-#DONWLOAD IMG DI UN SITO
+# from __future__ import annotations
 import requests
 from bs4 import BeautifulSoup
 import os
 
 
-def downloadallimg(url):
-    req = requests.get(url)
-    soup = BeautifulSoup(req.text,"lxml")
+def downloadallimg(url: str) -> dict:
+    """
+    Downloads all the images from the provided website
+    :param url:
+    :return:
+    """
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, "lxml")
 
-    lista = []
+    images_links = []
 
     for link in soup.find_all("img"):
-        lista.append(link.get("data-src"))
-        lista.append(link.get("src"))
+        images_links.append(link.get("data-src"))
+        images_links.append(link.get("src"))
 
-    nomecartella = url.split(".")[1]+"_img"
-    os.makedirs(nomecartella, exist_ok=True)
-    warning,x = 0,0
-    for linkimg in lista:
-        
-        if linkimg is None: 
+    foldername = url.split(".")[1] + "_img"
+    os.makedirs(foldername, exist_ok=True)
+
+    warnings_count, successful_requests_count = 0, 0
+
+    for linkimg in images_links:
+        if linkimg is None:
             continue
-        print(linkimg)
-        nome_img = linkimg.split("/")[-1]
-        nome_img = nome_img.split("?")[0]
-        print(nome_img)
+
+        imgname = linkimg.split("/")[-1]
+        imgname = imgname.split("?")[0]
+
         try:
-            req = requests.get(linkimg)
-        except:
-            print("warning")
-            warning +=1
-        with open(nomecartella+"/"+str(x)+"__" +nome_img, "wb") as f:
-            f.write(req.content)
-            x+= 1
+            response = requests.get(linkimg)
+        except:  # TODO which SPECIFIC exception do you want to catch?
+            warnings_count += 1
 
-    print("ci sono stati: ",warning , "warning su un totale di ", len(lista), " immagini")
+        with open(f"{foldername}/{successful_requests_count}__{imgname}", "wb") as f:
+            f.write(response.content)
+            successful_requests_count += 1
 
-
-
-
+    return {
+        "warnings": warnings_count,
+        "saved": successful_requests_count,
+        "total": warnings_count + successful_requests_count,
+    }
