@@ -18,7 +18,7 @@ You can install Davipy using pip, so type in shell:
 
 - **Website Link Collector:** Given a URL, the `listlink(url)` function creates a folder and generates a TXT file containing all the links on the website.
 
-- **Ping Function:** The `ping(url)` function checks the reachability of a website and returns "pong" if the website is reachable.
+- **Ping Function:** The `ping(url)` function checks the reachability of a website and returns a boolean value basing on if the site is reachable or not.
 
 - **Remove Duplicates:** The function `listremoveduplicate(input_list)` removes all duplicates from a given list.
 

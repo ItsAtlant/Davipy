@@ -1,4 +1,2 @@
-
-
-def listremoveduplicate(lista):
-    return list(set(lista))
+def listremoveduplicate(z: list) -> list:
+    return list(set(z))
